@@ -20,7 +20,6 @@ public class MlAlgorithms {
 
 
     /*
-    Setup
     You'll need to get a copy of the irises dataset.
     wget https://archive.ics.uci.edu/ml/machine-learning-databases/iris/bezdekIris.data
 
