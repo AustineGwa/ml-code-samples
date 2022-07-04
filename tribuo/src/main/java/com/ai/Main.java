@@ -1,10 +1,8 @@
 package com.ai;
 
 import com.ai.tribuo.MlAlgorithms;
-import io.github.resilience4j.core.StopWatch;
 
 import java.io.IOException;
-import java.util.Date;
 
 public class Main {
 
@@ -12,7 +10,7 @@ public class Main {
 
         MlAlgorithms mlAlgorithms = new MlAlgorithms();
         try {
-            mlAlgorithms.classification();
+            mlAlgorithms.logisticRegression();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

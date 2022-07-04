@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
-import java.nio.file.Files;
+
 import org.tribuo.*;
 import org.tribuo.evaluation.TrainTestSplitter;
 import org.tribuo.data.csv.CSVLoader;
@@ -17,22 +17,31 @@ import com.oracle.labs.mlrg.olcut.provenance.ProvenanceUtil;
 import com.oracle.labs.mlrg.olcut.config.json.*;
 
 public class MlAlgorithms {
-//    Setup
-//    You'll need to get a copy of the irises dataset.
-//    wget https://archive.ics.uci.edu/ml/machine-learning-databases/iris/bezdekIris.data
 
-//    This method demonstrates Tribuo's classification models to predict Iris species using Fisher's well known Irises dataset
-//    We'll focus on a simple logistic regression, and investigate the provenance and metadata that Tribuo stores inside each model.
-
-//    Logistic regression estimates the probability of an event occurring, such as voted or didn't vote,
-//    based on a given dataset of independent variables. Since the outcome is a probability,
-//    the dependent variable is bounded between 0 and 1.
 
     /*
-     This method looks at Tribuo's csv loading mechanism, how to train a simple classifier, how to evaluate a classifier on test data,
-      what metadata and provenance information is stored inside Tribuo's Model and Evaluation objects, and finally how to save and load Tribuo's models.
+    Setup
+    You'll need to get a copy of the irises dataset.
+    wget https://archive.ics.uci.edu/ml/machine-learning-databases/iris/bezdekIris.data
+
+    This method demonstrates Tribuo's classification models to predict Iris species using Fisher's well known Irises dataset
+    We'll focus on a simple logistic regression, and investigate the provenance and metadata that Tribuo stores inside each model.
+
+    Logistic regression estimates the probability of an event occurring, such as voted or didn't vote,
+    based on a given dataset of independent variables.
+
+    Since the outcome is a probability,the dependent variable is bounded between 0 and 1.
+    This method looks at Tribuo's csv loading mechanism, how to train a simple classifier, how to evaluate a classifier on test data,
+    what metadata and provenance information is stored inside Tribuo's Model and Evaluation objects,
+    and finally how to save and load Tribuo's models.
      */
-    public void classification() throws IOException {
+    public void logisticRegression() throws IOException {
+
+        /*
+        The Differences between Linear Regression and Logistic Regression.
+        Linear Regression is used to handle regression problems whereas Logistic regression is used to handle the classification problems.
+        Linear regression provides a continuous output but Logistic regression provides discreet output.
+        */
 
         /*
         Loading data
@@ -53,7 +62,7 @@ public class MlAlgorithms {
 
         /*
         Training the model
-        So that's a linear model, using a logistic loss, trained with AdaGrad for 5 epochs.
+        A linear model, using a logistic loss, trained with AdaGrad for 5 epochs.
          */
         Trainer<Label> trainer = new LogisticRegressionTrainer();
         System.out.println(trainer.toString());
