@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.*;
 import com.oracle.labs.mlrg.olcut.provenance.ProvenanceUtil;
 import com.oracle.labs.mlrg.olcut.config.json.*;
 
-public class MlAlgorithms {
+public class TribuoMlAlgorithms {
 
 
     /*
