@@ -49,6 +49,7 @@ public class TribuoMlAlgorithms {
 
     /*
     For Explanations on this algorithm
+    https://medium.com/analytics-vidhya/logistic-regression-the-maths-behind-it-how-it-works-and-an-example-7d50b778183
     https://towardsdatascience.com/introduction-to-logistic-regression-66248243c148
      */
     public void logisticRegression() throws IOException {
@@ -131,6 +132,7 @@ public class TribuoMlAlgorithms {
     /*
      For Explanations on this algorithm
      https://towardsdatascience.com/understanding-k-means-clustering-in-machine-learning-6a6e67336aa1
+     https://nouralserw.medium.com/k-means-the-maths-behind-it-how-it-works-and-an-example-67fdcfcb80f0
      */
     public void kMeansClustering() throws Exception{
          /*
