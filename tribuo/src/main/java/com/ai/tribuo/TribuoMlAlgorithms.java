@@ -7,6 +7,9 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
 
 import org.tribuo.*;
+import org.tribuo.clustering.evaluation.ClusteringEvaluator;
+import org.tribuo.clustering.example.GaussianClusterDataSource;
+import org.tribuo.clustering.kmeans.KMeansTrainer;
 import org.tribuo.evaluation.TrainTestSplitter;
 import org.tribuo.data.csv.CSVLoader;
 import org.tribuo.classification.*;
@@ -15,6 +18,15 @@ import org.tribuo.classification.sgd.linear.LogisticRegressionTrainer;
 import com.fasterxml.jackson.databind.*;
 import com.oracle.labs.mlrg.olcut.provenance.ProvenanceUtil;
 import com.oracle.labs.mlrg.olcut.config.json.*;
+import org.tribuo.*;
+import org.tribuo.util.Util;
+import org.tribuo.clustering.*;
+import org.tribuo.clustering.evaluation.*;
+import org.tribuo.clustering.example.GaussianClusterDataSource;
+import org.tribuo.clustering.kmeans.*;
+import org.tribuo.clustering.kmeans.KMeansTrainer.Distance;
+import org.tribuo.clustering.kmeans.KMeansTrainer.Initialisation;
+
 
 public class TribuoMlAlgorithms {
 
@@ -107,6 +119,77 @@ public class TribuoMlAlgorithms {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(tmpFile))) {
             oos.writeObject(irisModel);
         }
+
+    }
+
+    public void kMeansClustering() throws Exception{
+         /*
+        Loading data
+        We're going to sample two datasets (using different seeds) one for fitting the cluster centroids, and one to measure clustering performance.
+
+        The defaults for the data source are:
+            N([ 0.0,0.0], [[1.0,0.0],[0.0,1.0]])
+            N([ 5.0,5.0], [[1.0,0.0],[0.0,1.0]])
+            N([ 2.5,2.5], [[1.0,0.5],[0.5,1.0]])
+            N([10.0,0.0], [[0.1,0.0],[0.0,0.1]])
+            N([-1.0,0.0], [[1.0,0.0],[0.0,0.1]])
+        */
+        var eval = new ClusteringEvaluator();
+        var data = new MutableDataset<>(new GaussianClusterDataSource(500, 1L));
+        var test = new MutableDataset<>(new GaussianClusterDataSource(500, 2L));
+
+        /*
+        Model Training
+        We'll first fit a K-Means using 5 centroids, a maximum of 10 iterations, using the euclidean distance and a single computation thread.
+         */
+        var trainer = new KMeansTrainer(5, /* centroids */10, /* iterations */
+                Distance.EUCLIDEAN, /* distance function */
+                1, /* number of compute threads */
+                1 /* RNG seed */
+        );
+        var startTime = System.currentTimeMillis();
+        var model = trainer.train(data);
+        var endTime = System.currentTimeMillis();
+        System.out.println("Training with 5 clusters took " + Util.formatDuration(startTime,endTime));
+        var centroids = model.getCentroids();
+        for (var centroid : centroids) {
+            System.out.println(centroid);
+        }
+
+        /*
+        K-Means++¶
+        The training time isn't much different in this case,
+         but the K-Means++ initialisation does take longer than the default on larger datasets.
+        However the resulting clusters are usually better.
+         */
+
+//        var plusplusTrainer = new KMeansTrainer(5,10,Distance.EUCLIDEAN,Initialisation.PLUSPLUS,1,1);
+//        var startTime = System.currentTimeMillis();
+//        var plusplusModel = plusplusTrainer.train(data);
+//        var endTime = System.currentTimeMillis();
+//        System.out.println("Training with 5 clusters took " + Util.formatDuration(startTime,endTime));
+//        var ppCentroids = plusplusModel.getCentroids();
+//        for (var centroid : ppCentroids) {
+//            System.out.println(centroid);
+//        }
+
+        /*
+         Model evaluation
+         Tribuo uses the normalized mutual information to measure the quality of two clusterings.
+         This avoids the issue that swapping the id number of any given centroid doesn't change the overall clustering.
+         We're going to compare against the ground truth cluster labels from the data generator.
+
+         */
+//        First for the training data:
+        var trainEvaluation = eval.evaluate(model,data);
+        trainEvaluation.toString();
+
+//        Then for the unseen test data:
+        var testEvaluation = eval.evaluate(model,test);
+        testEvaluation.toString();
+
+
+
 
     }
 }

@@ -10,8 +10,9 @@ public class Main {
 
         TribuoMlAlgorithms tribuoMlAlgorithms = new TribuoMlAlgorithms();
         try {
-            tribuoMlAlgorithms.logisticRegression();
-        } catch (IOException e) {
+//            tribuoMlAlgorithms.logisticRegression();
+            tribuoMlAlgorithms.kMeansClustering();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
