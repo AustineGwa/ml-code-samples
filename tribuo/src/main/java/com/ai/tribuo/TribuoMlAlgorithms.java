@@ -46,6 +46,11 @@ public class TribuoMlAlgorithms {
     what metadata and provenance information is stored inside Tribuo's Model and Evaluation objects,
     and finally how to save and load Tribuo's models.
      */
+
+    /*
+    For Explanations on this algorithm
+    https://towardsdatascience.com/introduction-to-logistic-regression-66248243c148
+     */
     public void logisticRegression() throws IOException {
 
         /*
@@ -121,6 +126,12 @@ public class TribuoMlAlgorithms {
         }
 
     }
+
+
+    /*
+     For Explanations on this algorithm
+     https://towardsdatascience.com/understanding-k-means-clustering-in-machine-learning-6a6e67336aa1
+     */
     public void kMeansClustering() throws Exception{
          /*
         Loading data
