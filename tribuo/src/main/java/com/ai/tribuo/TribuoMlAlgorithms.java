@@ -121,7 +121,6 @@ public class TribuoMlAlgorithms {
         }
 
     }
-
     public void kMeansClustering() throws Exception{
          /*
         Loading data
@@ -182,11 +181,11 @@ public class TribuoMlAlgorithms {
          */
 //        First for the training data:
         var trainEvaluation = eval.evaluate(model,data);
-        trainEvaluation.toString();
+        System.out.println(" Evaluation training data \n" + trainEvaluation.toString());
 
 //        Then for the unseen test data:
         var testEvaluation = eval.evaluate(model,test);
-        testEvaluation.toString();
+        System.out.println(" Evaluation unseen test data\n" +testEvaluation.toString());
 
 
 
